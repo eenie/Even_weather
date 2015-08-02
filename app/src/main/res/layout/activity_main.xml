@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#71baa7"
+              android:orientation="vertical"
+              android:padding="16dp"
+
+
+
+
+
+              tools:context=".MainActivity"
+    >
+
+    <AutoCompleteTextView
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f5f5f5"
+        android:hint="城市名（例如：北京）"
+        android:nestedScrollingEnabled="false"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/text_location_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="10dp"
+        android:background="#f5f5f5"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取位置"
+        android:id="@+id/btn_getlocation"
+        android:layout_marginTop="10dp"/>
+
+
+</LinearLayout>
