@@ -48,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
 
                     System.out.println(result);
                 }
+                else if (msg.what==2)
+                {
+
+
+                }
 
             }
         };
