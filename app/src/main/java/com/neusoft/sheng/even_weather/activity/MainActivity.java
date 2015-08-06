@@ -2,6 +2,8 @@ package com.neusoft.sheng.even_weather.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -11,19 +13,22 @@ import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.neusoft.sheng.even_weather.R;
 import com.neusoft.sheng.even_weather.funtion.LocationApplication;
+import com.neusoft.sheng.even_weather.funtion.MyLocationListener;
 
-
+import java.util.List;
 
 
 public class MainActivity extends Activity {
 
     TextView text_location_info;
-    Button btn_getlocation;
+    Button btn_getlocation,btn_get;
     LocationManager locationManager;
     LocationListener locationListener;
     Handler handler;
@@ -32,8 +37,12 @@ public class MainActivity extends Activity {
     String lng;
 
 
-    private LocationClient mLocationClient;
+    public LocationClient mLocationClient=null;
+    public BDLocationListener bdLocationListener=new MyLocationListener();
 
+
+
+    SensorManager sensorManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +52,34 @@ public class MainActivity extends Activity {
         init();
         location();
 
+        mLocationClient=new LocationClient(getApplicationContext());
+        mLocationClient.registerLocationListener(bdLocationListener);
+
+        sensorManager=(SensorManager)getSystemService(Context.SENSOR_SERVICE);
 
 
 
-        mLocationClient = ((LocationApplication)getApplication()).mLocationClient;
-
-        ((LocationApplication)getApplication()).mLocationResult=text_location_info;
-
-
-        handler = new Handler() {
-
+        btn_get=(Button)findViewById(R.id.btn_get);
+        btn_get.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void handleMessage(Message msg) {
+            public void onClick(View v) {
+               List<Sensor> sensors=sensorManager.getSensorList(Sensor.TYPE_ALL);
+
+                Toast.makeText(getApplicationContext(),String.valueOf(sensors.size()),Toast.LENGTH_LONG).show();
+
+
+            }
+        });
+
+      //  mLocationClient = ((LocationApplication)getApplication()).mLocationClient;
+
+       // ((LocationApplication)getApplication()).mLocationResult=text_location_info;
+
+
+                handler = new Handler() {
+
+                    @Override
+                    public void handleMessage(Message msg) {
 
 
                 if (msg.what == 1) {

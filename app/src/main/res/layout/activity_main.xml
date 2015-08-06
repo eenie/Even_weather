@@ -5,11 +5,6 @@
               android:background="#71baa7"
               android:orientation="vertical"
               android:padding="16dp"
-
-
-
-
-
               tools:context=".MainActivity"
     >
 
@@ -38,6 +33,15 @@
         android:text="获取位置"
         android:id="@+id/btn_getlocation"
         android:layout_marginTop="10dp"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取传感器数量"
+        android:id="@+id/btn_get"
+        android:layout_gravity="center_horizontal"/>
+
+
 
 
 </LinearLayout>
