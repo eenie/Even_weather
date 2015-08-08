@@ -22,6 +22,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.2.1'
-    compile files('libs/locSDK_6.05.jar')
-    compile files('libs/bitmaploader.jar')
+
+    compile files('src/main/libs/bitmaploader.jar')
+    compile files('src/main/libs/locSDK_6.05.jar')
 }

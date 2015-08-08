@@ -14,16 +14,11 @@ import com.baidu.location.Poi;
 
 import java.util.List;
 
-/**
- * Ö÷Application£¬ËùÓĞ°Ù¶È¶¨Î»SDKµÄ½Ó¿ÚËµÃ÷Çë²Î¿¼ÏßÉÏÎÄµµ£ºhttp://developer.baidu.com/map/loc_refer/index.html
- * <p/>
- * °Ù¶È¶¨Î»SDK¹Ù·½ÍøÕ¾£ºhttp://developer.baidu.com/map/index.php?title=android-locsdk
- */
+
 public class LocationApplication extends Application {
     public LocationClient mLocationClient;
     public MyLocationListener mMyLocationListener;
-
-    public TextView mLocationResult, logMsg;
+    public TextView mLocationResult;
     public TextView trigger, exit;
     public Vibrator mVibrator;
 
@@ -34,97 +29,91 @@ public class LocationApplication extends Application {
         mMyLocationListener = new MyLocationListener();
         mLocationClient.registerLocationListener(mMyLocationListener);
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
-        System.out.println("Here");
-
     }
 
 
-
-
-
-
-
-    /**
-     * ÊµÏÖÊµÊ±Î»ÖÃ»Øµ÷¼àÌı
-     */
     public class MyLocationListener implements BDLocationListener {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
-            StringBuffer sb = new StringBuffer(256);
-            sb.append("time : ");
-            sb.append(location.getTime());
-            sb.append("\nerror code : ");
-            sb.append(location.getLocType());
-            sb.append("\nlatitude : ");
-            sb.append(location.getLatitude());
-            sb.append("\nlontitude : ");
-            sb.append(location.getLongitude());
-            sb.append("\nradius : ");
-            sb.append(location.getRadius());
-            if (location.getLocType() == BDLocation.TypeGpsLocation) {// GPS¶¨Î»½á¹û
-                sb.append("\nspeed : ");
-                sb.append(location.getSpeed());// µ¥Î»£º¹«ÀïÃ¿Ğ¡Ê±
-                sb.append("\nsatellite : ");
-                sb.append(location.getSatelliteNumber());
-                sb.append("\nheight : ");
-                sb.append(location.getAltitude());// µ¥Î»£ºÃ×
-                sb.append("\ndirection : ");
-                sb.append(location.getDirection());
-                sb.append("\naddr : ");
-                sb.append(location.getAddrStr());
-                sb.append("\ndescribe : ");
-                sb.append("gps¶¨Î»³É¹¦");
 
-            } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// ÍøÂç¶¨Î»½á¹û
-                sb.append("\naddr : ");
-                sb.append(location.getAddrStr());
-                //ÔËÓªÉÌĞÅÏ¢
-                sb.append("\noperationers : ");
-                sb.append(location.getOperators());
-                sb.append("\ndescribe : ");
-                sb.append("ÍøÂç¶¨Î»³É¹¦");
-            } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {// ÀëÏß¶¨Î»½á¹û
-                sb.append("\ndescribe : ");
-                sb.append("ÀëÏß¶¨Î»³É¹¦£¬ÀëÏß¶¨Î»½á¹ûÒ²ÊÇÓĞĞ§µÄ");
-            } else if (location.getLocType() == BDLocation.TypeServerError) {
-                sb.append("\ndescribe : ");
-                sb.append("·şÎñ¶ËÍøÂç¶¨Î»Ê§°Ü£¬¿ÉÒÔ·´À¡IMEIºÅºÍ´óÌå¶¨Î»Ê±¼äµ½loc-bugs@baidu.com£¬»áÓĞÈË×·²éÔ­Òò");
-            } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
-                sb.append("\ndescribe : ");
-                sb.append("ÍøÂç²»Í¬µ¼ÖÂ¶¨Î»Ê§°Ü£¬Çë¼ì²éÍøÂçÊÇ·ñÍ¨³©");
-            } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
-                sb.append("\ndescribe : ");
-                sb.append("ÎŞ·¨»ñÈ¡ÓĞĞ§¶¨Î»ÒÀ¾İµ¼ÖÂ¶¨Î»Ê§°Ü£¬Ò»°ãÊÇÓÉÓÚÊÖ»úµÄÔ­Òò£¬´¦ÓÚ·ÉĞĞÄ£Ê½ÏÂÒ»°ã»áÔì³ÉÕâÖÖ½á¹û£¬¿ÉÒÔÊÔ×ÅÖØÆôÊÖ»ú");
-            }
-            sb.append("\nlocationdescribe : ");// Î»ÖÃÓïÒå»¯ĞÅÏ¢
-            sb.append(location.getLocationDescribe());
-            List<Poi> list = location.getPoiList();// POIĞÅÏ¢
-            if (list != null) {
-                sb.append("\npoilist size = : ");
-                sb.append(list.size());
-                for (Poi p : list) {
-                    sb.append("\npoi= : ");
-                    sb.append(p.getId() + " " + p.getName() + " " + p.getRank());
-                }
-            }
+            StringBuffer sb = new StringBuffer(256);
+
+            sb.append("ç»åº¦:" + location.getLatitude());
+            sb.append("\nçº¬åº¦:" + location.getLongitude());
+
+
+//            sb.append("time : ");
+//            sb.append(location.getTime());
+//            sb.append("\nerror code : ");
+//            sb.append(location.getLocType());
+//            sb.append("\nlatitude : ");
+//            sb.append(location.getLatitude());
+//            sb.append("\nlontitude : ");
+//            sb.append(location.getLongitude());
+//            sb.append("\nradius : ");
+//            sb.append(location.getRadius());
+//            if (location.getLocType() == BDLocation.TypeGpsLocation) {// GPSï¿½ï¿½Î»ï¿½ï¿½ï¿½
+//                sb.append("\nspeed : ");
+//                sb.append(location.getSpeed());// ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿Ğ¡Ê±
+//                sb.append("\nsatellite : ");
+//                sb.append(location.getSatelliteNumber());
+//                sb.append("\nheight : ");
+//                sb.append(location.getAltitude());// ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½
+//                sb.append("\ndirection : ");
+//                sb.append(location.getDirection());
+//                sb.append("\naddr : ");
+//                sb.append(location.getAddrStr());
+//                sb.append("\ndescribe : ");
+//                sb.append("gpsï¿½ï¿½Î»ï¿½É¹ï¿½");
+//
+//            } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// ï¿½ï¿½ï¿½ç¶¨Î»ï¿½ï¿½ï¿½
+//                sb.append("\naddr : ");
+//                sb.append(location.getAddrStr());
+//                //ï¿½ï¿½Óªï¿½ï¿½ï¿½ï¿½Ï¢
+//                sb.append("\noperationers : ");
+//                sb.append(location.getOperators());
+//                sb.append("\ndescribe : ");
+//                sb.append("ï¿½ï¿½ï¿½ç¶¨Î»ï¿½É¹ï¿½");
+//            } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {// ï¿½ï¿½ï¿½ß¶ï¿½Î»ï¿½ï¿½ï¿½
+//                sb.append("\ndescribe : ");
+//                sb.append("ï¿½ï¿½ï¿½ß¶ï¿½Î»ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¶ï¿½Î»ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½Ğ§ï¿½ï¿½");
+//            } else if (location.getLocType() == BDLocation.TypeServerError) {
+//                sb.append("\ndescribe : ");
+//                sb.append("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç¶¨Î»Ê§ï¿½Ü£ï¿½ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½IMEIï¿½ÅºÍ´ï¿½ï¿½å¶¨Î»Ê±ï¿½äµ½loc-bugs@baidu.comï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×·ï¿½ï¿½Ô­ï¿½ï¿½");
+//            } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
+//                sb.append("\ndescribe : ");
+//                sb.append("ï¿½ï¿½ï¿½ç²»Í¬ï¿½ï¿½ï¿½Â¶ï¿½Î»Ê§ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Í¨ï¿½ï¿½");
+//            } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
+//                sb.append("\ndescribe : ");
+//                sb.append("ï¿½Ş·ï¿½ï¿½ï¿½È¡ï¿½ï¿½Ğ§ï¿½ï¿½Î»ï¿½ï¿½ï¿½İµï¿½ï¿½Â¶ï¿½Î»Ê§ï¿½Ü£ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½Ô­ï¿½ò£¬´ï¿½ï¿½Ú·ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½");
+//            }
+//            sb.append("\nlocationdescribe : ");// Î»ï¿½ï¿½ï¿½ï¿½ï¿½å»¯ï¿½ï¿½Ï¢
+//            sb.append(location.getLocationDescribe());
+//            List<Poi> list = location.getPoiList();// POIï¿½ï¿½Ï¢
+//            if (list != null) {
+//                sb.append("\npoilist size = : ");
+//                sb.append(list.size());
+//                for (Poi p : list) {
+//                    sb.append("\npoi= : ");
+//                    sb.append(p.getId() + " " + p.getName() + " " + p.getRank());
+//                }
+//            }
             logMsg(sb.toString());
-            Log.i("BaiduLocationApiDem", sb.toString());
+//            Log.i("BaiduLocationApiDem", sb.toString());
         }
 
 
     }
 
 
-    /**
-     * ÏÔÊ¾ÇëÇó×Ö·û´®
-     *
-     * @param str
-     */
     public void logMsg(String str) {
         try {
             if (mLocationResult != null)
                 mLocationResult.setText(str);
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }

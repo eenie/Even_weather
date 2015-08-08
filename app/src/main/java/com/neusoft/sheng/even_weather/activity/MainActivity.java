@@ -20,7 +20,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.neusoft.sheng.even_weather.R;
 import com.neusoft.sheng.even_weather.funtion.LocationApplication;
-import com.neusoft.sheng.even_weather.funtion.MyLocationListener;
+
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ import java.util.List;
 public class MainActivity extends Activity {
 
     TextView text_location_info;
-    Button btn_getlocation,btn_get;
+    Button btn_getlocation, btn_get;
     LocationManager locationManager;
     LocationListener locationListener;
     Handler handler;
@@ -37,9 +37,8 @@ public class MainActivity extends Activity {
     String lng;
 
 
-    public LocationClient mLocationClient=null;
-    public BDLocationListener bdLocationListener=new MyLocationListener();
-
+    public LocationClient mLocationClient = null;
+    //public BDLocationListener bdLocationListener=new MyLocationListener();
 
 
     SensorManager sensorManager;
@@ -50,44 +49,42 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         init();
-        location();
-
-        mLocationClient=new LocationClient(getApplicationContext());
-        mLocationClient.registerLocationListener(bdLocationListener);
-
-        sensorManager=(SensorManager)getSystemService(Context.SENSOR_SERVICE);
 
 
+        mLocationClient = new LocationClient(getApplicationContext());
 
-        btn_get=(Button)findViewById(R.id.btn_get);
+
+        mLocationClient = ((LocationApplication) getApplication()).mLocationClient;
+
+        ((LocationApplication) getApplication()).mLocationResult = text_location_info;
+
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+
+        btn_get = (Button) findViewById(R.id.btn_get);
         btn_get.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               List<Sensor> sensors=sensorManager.getSensorList(Sensor.TYPE_ALL);
+                List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
 
-                Toast.makeText(getApplicationContext(),String.valueOf(sensors.size()),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), String.valueOf(sensors.size()), Toast.LENGTH_LONG).show();
 
 
             }
         });
 
-      //  mLocationClient = ((LocationApplication)getApplication()).mLocationClient;
 
-       // ((LocationApplication)getApplication()).mLocationResult=text_location_info;
+        handler = new Handler() {
 
-
-                handler = new Handler() {
-
-                    @Override
-                    public void handleMessage(Message msg) {
+            @Override
+            public void handleMessage(Message msg) {
 
 
                 if (msg.what == 1) {
 
                     System.out.println(result);
-                }
-                else if (msg.what==2)
-                {
+                } else if (msg.what == 2) {
 
 
                 }
@@ -108,70 +105,14 @@ public class MainActivity extends Activity {
     }
 
 
-    private void location() {
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-
-
-                lat = String.valueOf(location.getLatitude());
-                lng = String.valueOf(location.getLongitude());
-                text_location_info.setText("经度：" + lat + "\n" + "纬度：" + lng);
-
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-                System.out.println("GPS is open");
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-                System.out.println("GPS is close");
-
-            }
-        };
-
-
-      //  locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
-
-
-    }
-
     View.OnClickListener btn_listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
 
             initLocation();
-mLocationClient.start();
+            mLocationClient.start();
             System.out.println(mLocationClient.getVersion());
-
-
-//            new Thread() {
-//                @Override
-//                public void run() {
-//
-//                    if (lat != null || lng != null) {
-//                        String args = "lng=" + lng + "&lat=" + lat + "&from=1&needMoreDay=1&needIndex=1";
-//                        result = GetData.requestByGet(Weatherinterface.weatherApi, args, "ee08b51f33d09d3601e22bb28b29e40c");
-//                        if (result != null) {
-//                            handler.sendEmptyMessage(1);
-//                        }
-//                    }else
-//
-//                    {
-//                        System.out.println("正在等待GPS数据，请稍后再试...");
-//                    }
-//
-//                }
-//            }.start();
 
 
         }
@@ -180,13 +121,11 @@ mLocationClient.start();
     };
 
 
-
-
-    private void initLocation(){
+    private void initLocation() {
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.setCoorType("gcj02");//可选，默认gcj02，设置返回的定位结果坐标系，
-        int span=1000;
+        int span = 0;
         option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
         option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
         option.setOpenGps(true);//可选，默认false,设置是否使用gps
