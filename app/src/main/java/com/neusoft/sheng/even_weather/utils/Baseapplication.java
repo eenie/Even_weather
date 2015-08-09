@@ -9,6 +9,6 @@ import android.app.Application;
  */
 public class Baseapplication extends Application {
 
-
+public static String GET_DATA_URL="";
 
 }

@@ -1,45 +1,22 @@
 package com.neusoft.sheng.even_weather.funtion;
 
-
-import android.app.Application;
-import android.app.Service;
-import android.os.Vibrator;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.Poi;
 
-import java.util.List;
+/**
+ * Created by sheng on 2015/8/8.
+ */
+public class MyLocationListener implements BDLocationListener{
 
-
-public class LocationApplication extends Application {
-    public LocationClient mLocationClient;
-    public MyLocationListener mMyLocationListener;
-    public TextView mLocationResult;
-    public TextView trigger, exit;
-    public Vibrator mVibrator;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mLocationClient = new LocationClient(this.getApplicationContext());
-        mMyLocationListener = new MyLocationListener();
-        mLocationClient.registerLocationListener(mMyLocationListener);
-        mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
-    }
-
-
-    public class MyLocationListener implements BDLocationListener {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
 
             StringBuffer sb = new StringBuffer(256);
 
-            sb.append("经度:" + location.getLatitude());
+            sb.append("\n经度:" + location.getLatitude());
             sb.append("\n纬度:" + location.getLongitude());
 
 
@@ -99,23 +76,20 @@ public class LocationApplication extends Application {
 //                    sb.append(p.getId() + " " + p.getName() + " " + p.getRank());
 //                }
 //            }
-            logMsg(sb.toString());
-//            Log.i("BaiduLocationApiDem", sb.toString());
+          //  logMsg(sb.toString());
+            Log.i("BaiduLocationApiDem", sb.toString());
         }
+
+
 
 
     }
 
 
-    public void logMsg(String str) {
-        try {
-            if (mLocationResult != null)
-                mLocationResult.setText(str);
 
 
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
+
+
+
+

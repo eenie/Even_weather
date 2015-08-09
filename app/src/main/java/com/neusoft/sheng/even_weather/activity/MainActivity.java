@@ -4,37 +4,28 @@ import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.neusoft.sheng.even_weather.R;
-import com.neusoft.sheng.even_weather.funtion.LocationApplication;
-
+import com.neusoft.sheng.even_weather.funtion.MyLocationListener;
 
 import java.util.List;
 
 
-public class MainActivity extends Activity {
+public class MainActivity  extends Activity {
 
     TextView text_location_info;
     Button btn_getlocation, btn_get;
     LocationManager locationManager;
-    LocationListener locationListener;
-    Handler handler;
-    String result;
-    String lat;
-    String lng;
+    MyLocationListener locationListener;
+
 
 
     public LocationClient mLocationClient = null;
@@ -52,11 +43,11 @@ public class MainActivity extends Activity {
 
 
         mLocationClient = new LocationClient(getApplicationContext());
+        locationListener = new MyLocationListener();
+
+        mLocationClient.registerLocationListener(locationListener);
 
 
-        mLocationClient = ((LocationApplication) getApplication()).mLocationClient;
-
-        ((LocationApplication) getApplication()).mLocationResult = text_location_info;
 
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -75,22 +66,7 @@ public class MainActivity extends Activity {
         });
 
 
-        handler = new Handler() {
 
-            @Override
-            public void handleMessage(Message msg) {
-
-
-                if (msg.what == 1) {
-
-                    System.out.println(result);
-                } else if (msg.what == 2) {
-
-
-                }
-
-            }
-        };
 
 
     }
@@ -124,11 +100,11 @@ public class MainActivity extends Activity {
     private void initLocation() {
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
-        option.setCoorType("gcj02");//可选，默认gcj02，设置返回的定位结果坐标系，
+        option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系，
         int span = 0;
         option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
         option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
-        option.setOpenGps(true);//可选，默认false,设置是否使用gps
+        option.setOpenGps(false);//可选，默认false,设置是否使用gps
         option.setLocationNotify(true);//可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
         option.setIgnoreKillProcess(true);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
         option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤gps仿真结果，默认需要
